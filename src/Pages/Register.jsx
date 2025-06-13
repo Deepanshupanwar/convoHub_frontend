@@ -3,7 +3,7 @@ import chatImg from "../Utils/chatImg.jpg";
 import { Link, Navigate } from "react-router-dom"
 import { useRef } from "react";
 import { useUser } from "../Context/userContext"
-import { RegisterHandler, googleLoginHandler, getUser } from "../Utils/auth";
+import { RegisterHandler } from "../Utils/auth";
 import toast, {Toaster} from "react-hot-toast";
 
 export default function Register() {
@@ -69,12 +69,11 @@ export default function Register() {
 
 
                     <div className="space-y-2 text-center">
-                        {/* <button className="w-full border border-gray-300 py-2 rounded-lg hover:bg-[#EA4335] hover:text-white transition"
-                            onClick={googleLoginHandler}
+                        <button className="w-full border border-gray-300 py-2 rounded-lg hover:bg-[#EA4335] hover:text-white transition"
                         >
-                            Sign in with Google
-                        </button> */}
-                        <a href="https://convohub-backend-ut0t.onrender.com/api/auth/google">Sign in with Google</a>
+                           <a href="https://convohub-backend-ut0t.onrender.com/api/auth/google">Sign in with Google</a>
+                        </button>
+                        
                         <p className="text-sm text-gray-600">
                             Already have an account? <Link to={"/login"} className="text-blue-600 hover:underline cursor-pointer">Login</Link>
                         </p>

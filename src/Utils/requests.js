@@ -9,7 +9,6 @@ export async function sendRequest(receiverId, setUser, setLoading, toast, user, 
         })
         if (response.status === 200) {
             const data = await response.json();
-            console.log(data)
             setUser((prev)=> {return {...prev,requestsSent:[... prev.requestsSent, receiverId]}});
             socket.emit("sendRequest", {receiverId, sender: {name: user.name, _id: user._id, profilePic: user.profilePic, email: user.email}});
             toast.success("request sent")

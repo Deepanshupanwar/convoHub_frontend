@@ -58,97 +58,91 @@ export default function MainPage() {
   useEffect(() => {
 
     if (!user) return;
-  if (!socket) return;
+    if (!socket) return;
 
-  socket.connect();
+    socket.connect();
     getData()
 
 
     socket.connect()
 
-  
-
-    console.log("Registering socket listeners...");
 
     socket.on("connect", () => {
-      console.log("✅ Connected to socket:", socket.id);
+
     });
 
     socket.on("receive-message", (message) => {
-      if (selectedChatRef.current=== null || !selectedChatRef.current.participants.some(p => p._id === message.sender)) {
+      if (selectedChatRef.current === null || !selectedChatRef.current.participants.some(p => p._id === message.sender)) {
         toast.success("new message received")
       }
       realTimeChat(message, setSelectedChat, setChats)
     });
 
     socket.on("receiveGroupMessage", (message) => {
-      if (selectedGroupRef.current == null || selectedGroupRef.current._id!==message.group) {
+      if (selectedGroupRef.current == null || selectedGroupRef.current._id !== message.group) {
         toast.success("new message received in Group")
       }
       realTimeGroupChat(message, setSelectedGroup, setGroups)
     })
 
-    socket.on("getRequest",(sender)=>{
-      console.log(sender)
-      setUser((prev) => { return {...prev, requestsReceived: [...prev.requestsReceived, sender]}});
+    socket.on("getRequest", (sender) => {
+      setUser((prev) => { return { ...prev, requestsReceived: [...prev.requestsReceived, sender] } });
       toast.success("connection request received")
     })
 
-    socket.on("getRejectRequest",(receiverId)=>{
-      setUser(prev=> {return {...prev, requestsSent: prev.requestsSent.filter((id)=> id!==receiverId)}});
+    socket.on("getRejectRequest", (receiverId) => {
+      setUser(prev => { return { ...prev, requestsSent: prev.requestsSent.filter((id) => id !== receiverId) } });
       toast.error("request rejected");
     })
 
-    socket.on("getAcceptRequest", ({recevierId, chat, friend})=>{
+    socket.on("getAcceptRequest", ({ recevierId, chat, friend }) => {
       setChats(prev => [chat, ...prev]);
-      setUser(prev=> {return {...prev, requestsSent: prev.requestsSent.filter((id)=> id!==recevierId), connections: [friend, ...prev.connections]}});
+      setUser(prev => { return { ...prev, requestsSent: prev.requestsSent.filter((id) => id !== recevierId), connections: [friend, ...prev.connections] } });
       toast.success("request accepted")
     })
 
-    socket.on("receiveGroup", (data)=>{
+    socket.on("receiveGroup", (data) => {
       setGroups(prev => [data, ...prev]);
-       setUser({...user, groups: [...user.groups, data._id]})
-      toast.success("you have been added to group "+ data.name)
+      setUser({ ...user, groups: [...user.groups, data._id] })
+      toast.success("you have been added to group " + data.name)
     })
 
-    socket.on("addedToGroup", (group)=>{
+    socket.on("addedToGroup", (group) => {
       setGroups(prev => [group, ...prev]);
-      setUser({...user, groups: [...user.groups, group._id]})
-      toast.success("you have been added to group "+ group.name)
+      setUser({ ...user, groups: [...user.groups, group._id] })
+      toast.success("you have been added to group " + group.name)
     })
 
-    socket.on("receiveNewMember", (data)=>{
-        if(selectedGroupRef.current!==null && selectedGroupRef.current._id === data._id){
-          setSelectedGroup(data);
-        }
-        setGroups(prev => prev.map((group)=> group._id === data._id? data: group));
-        toast.success("new member added to group "+data.name)
+    socket.on("receiveNewMember", (data) => {
+      if (selectedGroupRef.current !== null && selectedGroupRef.current._id === data._id) {
+        setSelectedGroup(data);
+      }
+      setGroups(prev => prev.map((group) => group._id === data._id ? data : group));
+      toast.success("new member added to group " + data.name)
     })
 
-    socket.on("removedFromGroup",(groupId)=>{
+    socket.on("removedFromGroup", (groupId) => {
       setGroups(prev => prev.filter(group => group._id !== groupId));
-      if(selectedGroupRef.current!==null && selectedGroupRef.current._id === groupId){
-        toast.error("you have been removed from group "+selectedGroupRef.current.name);
+      if (selectedGroupRef.current !== null && selectedGroupRef.current._id === groupId) {
+        toast.error("you have been removed from group " + selectedGroupRef.current.name);
         setSelectedGroup(null);
         setSelected("default");
       }
     })
 
-    socket.on("memberRemovedFromGroup", ({groupId, memberId})=>{
-        if(selectedGroupRef.current!==null && selectedGroupRef.current._id == groupId){
-          setSelectedGroup(prev => prev._id === groupId?  {...prev, members: prev.members.filter(member => member._id !== memberId)}: prev)
-          toast.error("member have been removed");
-        }
-        setGroups(prev => prev.map((group)=> group._id === groupId?  {...group, members: group.members.filter(member => member._id !== memberId)}: group));
-        
+    socket.on("memberRemovedFromGroup", ({ groupId, memberId }) => {
+      if (selectedGroupRef.current !== null && selectedGroupRef.current._id == groupId) {
+        setSelectedGroup(prev => prev._id === groupId ? { ...prev, members: prev.members.filter(member => member._id !== memberId) } : prev)
+        toast.error("member have been removed");
+      }
+      setGroups(prev => prev.map((group) => group._id === groupId ? { ...group, members: group.members.filter(member => member._id !== memberId) } : group));
+
     })
 
     socket.on("disconnect", () => {
-      console.log("🔌 Disconnected from socket:", socket.id);
     });
 
     return () => {
-      console.log("🧹 Cleaning up socket listeners...");
       socket.off("connect");
       socket.off("receive-message");
       socket.off("disconnect");

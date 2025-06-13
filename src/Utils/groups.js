@@ -133,7 +133,7 @@ export async function addMember(memberId, groupId, setSelectedGroup, setGroups ,
 
     }
     catch(err){
-
+        console.log(err)
     }
 }
 

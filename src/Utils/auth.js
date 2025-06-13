@@ -45,8 +45,6 @@ export async function logout(setState) {
             credentials: "include"
         })
         if(response.status ===200){
-            const data = await response.json();
-            console.log(data);
             setState.setUser(null);
             setState.setSelected("default");
             setState.setChats([]);

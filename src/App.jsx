@@ -4,7 +4,7 @@ import MainPage from "./Pages/MainPage";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import OAuthSuccess from "./Pages/OauthSuccess";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App(){
     return (

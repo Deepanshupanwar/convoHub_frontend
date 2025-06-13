@@ -3,6 +3,7 @@ import LandingPage from "./Pages/LandingPage";
 import MainPage from "./Pages/MainPage";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import OAuthSuccess from "./Pages/OauthSuccess";
 
 export default function App(){
     return (
@@ -12,6 +13,7 @@ export default function App(){
                 <Route path="/login" element= {<Login/>}/>
                 <Route path="/register" element= {<Register/>}/>
                 <Route path="/mainPage" element= {<MainPage/>}/>
+                <Route path="/oauth-success" element={<OauthSuccess/>}/>
             </Routes>
         </BrowserRouter>
     )

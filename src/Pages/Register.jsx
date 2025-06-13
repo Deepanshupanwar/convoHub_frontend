@@ -69,11 +69,12 @@ export default function Register() {
 
 
                     <div className="space-y-2 text-center">
-                        <button className="w-full border border-gray-300 py-2 rounded-lg hover:bg-[#EA4335] hover:text-white transition"
+                        {/* <button className="w-full border border-gray-300 py-2 rounded-lg hover:bg-[#EA4335] hover:text-white transition"
                             onClick={googleLoginHandler}
                         >
                             Sign in with Google
-                        </button>
+                        </button> */}
+                        <a href="https://convohub-backend-ut0t.onrender.com/api/auth/google">Sign in with Google</a>
                         <p className="text-sm text-gray-600">
                             Already have an account? <Link to={"/login"} className="text-blue-600 hover:underline cursor-pointer">Login</Link>
                         </p>

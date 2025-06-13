@@ -120,3 +120,27 @@ export async function getUser(setUser, toast) {
     }
 }
 
+export async function getOauthUser(setUser, toast, token) {
+    try{
+        const response = await fetch(url+"/api/auth/checklogin",{
+            method: "GET",
+            headers:{
+                Authorization: `Bearer ${token}`
+            },
+            credentials: "include"
+        });
+        if(response.status===200){
+            const data = await response.json();
+            setUser(data);
+            toast.success("logged in successfully")
+        }
+        else{
+            const message = await response.json();
+            toast.error(message.message)
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+

@@ -13,7 +13,7 @@ export default function App(){
                 <Route path="/login" element= {<Login/>}/>
                 <Route path="/register" element= {<Register/>}/>
                 <Route path="/mainPage" element= {<MainPage/>}/>
-                <Route path="/oauth-success" element={<OauthSuccess/>}/>
+                <Route path="/oauth-success" element={<OAuthSuccess/>}/>
             </Routes>
         </BrowserRouter>
     )
